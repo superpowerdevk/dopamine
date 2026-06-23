@@ -35,7 +35,7 @@ _CSS = """
 .dop .card .s{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(22px,7cqi,30px)}
 .dop .card.red{color:var(--cr)}.dop .card.black{color:var(--cb)}
 .dop .banner{margin:12px 0;text-align:center;border-radius:10px;padding:12px;font-family:system-ui,Segoe UI,Roboto,sans-serif;
- font-weight:800;letter-spacing:.04em;font-size:clamp(17px,5.5cqi,22px);text-transform:uppercase}
+ font-weight:800;letter-spacing:.04em;font-size:clamp(17px,5.5cqi,22px);text-transform:uppercase;animation:pop .4s both}
 .dop .banner small{display:block;font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.18em;margin-top:3px;opacity:.85}
 .dop .banner.win{color:var(--win);background:radial-gradient(80% 140% at 50% 0,rgba(70,224,138,.18),transparent);text-shadow:0 0 22px rgba(70,224,138,.55)}
 .dop .banner.lose{color:var(--lose);background:radial-gradient(80% 140% at 50% 0,rgba(255,93,115,.16),transparent);text-shadow:0 0 22px rgba(255,93,115,.45)}
@@ -45,17 +45,17 @@ _CSS = """
 .dop .stat .v{font-size:15px;margin-top:3px}.dop .stat .v.up{color:var(--win)}.dop .stat .v.down{color:var(--lose)}
 .dop .reels{display:flex;gap:8px;justify-content:center;margin:6px 0}
 .dop .reel{width:clamp(48px,14cqi,60px);height:clamp(58px,17cqi,72px);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:clamp(26px,8cqi,34px);
- background:#0a0d0c;box-shadow:inset 0 0 0 1px rgba(231,198,107,.25),inset 0 8px 18px rgba(0,0,0,.6);animation:dl .4s both}
+ background:#0a0d0c;box-shadow:inset 0 0 0 1px rgba(231,198,107,.25),inset 0 8px 18px rgba(0,0,0,.6);animation:spin .55s ease-out both}
 .dop .reel:nth-child(2){animation-delay:.12s}.dop .reel:nth-child(3){animation-delay:.24s}
 .dop .wheel{width:clamp(76px,24cqi,96px);height:clamp(76px,24cqi,96px);border-radius:50%;margin:6px auto;display:flex;align-items:center;justify-content:center;
  font-size:28px;font-weight:800;color:#fff;border:3px solid rgba(231,198,107,.5);
  background:conic-gradient(#1a1a1a 0 10deg,#cf2d3b 10deg 20deg,#1a1a1a 20deg 30deg,#cf2d3b 30deg 40deg,#1a1a1a 40deg 50deg,#138a36 50deg 60deg,#1a1a1a 60deg 360deg)}
-.dop .coin{width:clamp(70px,22cqi,84px);height:clamp(70px,22cqi,84px);border-radius:50%;margin:6px auto;display:flex;align-items:center;justify-content:center;
+.dop .coin{width:clamp(70px,22cqi,84px);height:clamp(70px,22cqi,84px);border-radius:50%;margin:6px auto;display:flex;align-items:center;justify-content:center;animation:flip .6s ease-out both;
  font-size:32px;font-weight:800;color:#3b2f0c;background:radial-gradient(circle at 35% 30%,#f6dd95,#caa544);
  box-shadow:0 6px 14px rgba(0,0,0,.45),inset 0 0 0 3px rgba(255,255,255,.25)}
 .dop .track{height:10px;border-radius:999px;background:#0a0d0c;position:relative;margin:20px 0 8px;box-shadow:inset 0 0 0 1px rgba(231,198,107,.2)}
 .dop .track .wz{position:absolute;top:0;bottom:0;background:rgba(70,224,138,.22);border-radius:999px}
-.dop .track .rl{position:absolute;top:-5px;width:3px;height:20px;background:var(--gold)}
+.dop .track .rl{position:absolute;top:-5px;width:3px;height:20px;background:var(--gold);animation:slide .5s ease-out both}
 .dop .hands{display:flex;justify-content:center;gap:26px;font-size:clamp(34px,11cqi,46px);margin:8px 0}
 .dop .center{text-align:center;font-size:13px;color:var(--dim);margin-top:6px}.dop .center b{color:var(--txt)}
 
@@ -63,7 +63,7 @@ _CSS = """
 .dop .num,.dop .zero{display:flex;align-items:center;justify-content:center;border-radius:4px;font-weight:700;color:#fff;position:relative;font-size:clamp(9px,2.6cqi,12px)}
 .dop .num.red{background:#b3242f}.dop .num.black{background:#1c1f25}
 .dop .zero{grid-row:1/4;grid-column:1;background:#138a36;padding:0 2px}
-.dop .win{box-shadow:0 0 0 2px #fff,0 0 14px rgba(255,255,255,.65);z-index:2}
+.dop .win{box-shadow:0 0 0 2px #fff,0 0 14px rgba(255,255,255,.65);z-index:2;animation:land .5s both}
 .dop .ball{position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff;z-index:4}
 .dop .chip{position:absolute;width:clamp(17px,5cqi,22px);height:clamp(17px,5cqi,22px);border-radius:50%;
  background:radial-gradient(circle at 35% 30%,#f6dd95,#caa544);border:2px dashed #8a6d1f;color:#3b2f0c;
@@ -83,6 +83,11 @@ _CSS = """
  background:radial-gradient(circle at 35% 30%,#f6dd95,#caa544);border:2px dashed #8a6d1f;color:#3b2f0c;
  font-size:clamp(9px,2.8cqi,12px);font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.5)}
 .dop .betspot .lbl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+@keyframes spin{0%{transform:translateY(-42px);filter:blur(3px);opacity:.4}100%{transform:none;filter:none;opacity:1}}
+@keyframes flip{0%{transform:rotateY(0)}100%{transform:rotateY(720deg)}}
+@keyframes slide{from{left:0}}
+@keyframes land{0%{transform:scale(1)}40%{transform:scale(1.35)}100%{transform:scale(1)}}
+@keyframes pop{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
 </style>
 """
 
