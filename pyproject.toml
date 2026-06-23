@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "superclaw-dopamine"
-version = "1.0.0"
+version = "1.1.0"
 description = "DB-backed, provably-fair game engine for AI agents — virtual chips, no chain, no network."
 readme = "README.md"
 requires-python = ">=3.8"
