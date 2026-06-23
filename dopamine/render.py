@@ -13,7 +13,7 @@ _CSS = """
 .dop{--gold:#e7c66b;--gold-d:#9c8540;--win:#46e08a;--lose:#ff5d73;--push:#e7c66b;
  --card:#f7f4ec;--cr:#cf2d3b;--cb:#16181d;--txt:#e9e6dd;--dim:#8a988f;
  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
- font-family:var(--mono);color:var(--txt);max-width:560px;border-radius:18px;position:relative;
+ font-family:var(--mono);color:var(--txt);width:100%;max-width:560px;container-type:inline-size;border-radius:18px;position:relative;
  background:radial-gradient(120% 90% at 50% 0,#0c2a1e,#061711);border:1px solid rgba(231,198,107,.28);
  box-shadow:0 20px 60px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.04);padding:18px 20px 16px;overflow:hidden}
 @media (prefers-reduced-motion:reduce){.dop *{animation:none!important}}
@@ -25,38 +25,38 @@ _CSS = """
 .dop .tot{font-size:13px}.dop .tag{margin-left:8px;padding:2px 7px;border-radius:999px;font-size:10px;letter-spacing:.12em;text-transform:uppercase}
 .dop .tag.bust{background:rgba(255,93,115,.16);color:var(--lose)}.dop .tag.bj{background:rgba(70,224,138,.16);color:var(--win)}
 .dop .hand{display:flex;gap:8px;margin:8px 0 2px;flex-wrap:wrap}
-.dop .card{width:64px;height:90px;border-radius:8px;position:relative;flex:0 0 auto;background:linear-gradient(160deg,#fff,var(--card));
+.dop .card{width:clamp(44px,11cqi,64px);height:clamp(62px,15.4cqi,90px);border-radius:8px;position:relative;flex:0 0 auto;background:linear-gradient(160deg,#fff,var(--card));
  box-shadow:0 7px 16px rgba(0,0,0,.5),inset 0 0 0 1px rgba(0,0,0,.07);animation:dl .42s cubic-bezier(.2,.8,.2,1) both}
 .dop .card:nth-child(2){animation-delay:.08s}.dop .card:nth-child(3){animation-delay:.16s}
 .dop .card:nth-child(4){animation-delay:.24s}.dop .card:nth-child(5){animation-delay:.32s}.dop .card:nth-child(6){animation-delay:.40s}
 @keyframes dl{from{opacity:0;transform:translateY(-16px) rotate(-6deg) scale(.96)}to{opacity:1;transform:none}}
-.dop .card .r{position:absolute;font-weight:800;font-size:15px;line-height:1;font-family:Georgia,serif}
+.dop .card .r{position:absolute;font-weight:800;font-size:clamp(11px,3.4cqi,15px);line-height:1;font-family:Georgia,serif}
 .dop .card .r.tl{top:7px;left:8px}.dop .card .r.br{bottom:7px;right:8px;transform:rotate(180deg)}
-.dop .card .s{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:30px}
+.dop .card .s{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(22px,7cqi,30px)}
 .dop .card.red{color:var(--cr)}.dop .card.black{color:var(--cb)}
 .dop .banner{margin:12px 0;text-align:center;border-radius:10px;padding:12px;font-family:system-ui,Segoe UI,Roboto,sans-serif;
- font-weight:800;letter-spacing:.04em;font-size:22px;text-transform:uppercase}
+ font-weight:800;letter-spacing:.04em;font-size:clamp(17px,5.5cqi,22px);text-transform:uppercase}
 .dop .banner small{display:block;font-family:var(--mono);font-weight:600;font-size:12px;letter-spacing:.18em;margin-top:3px;opacity:.85}
 .dop .banner.win{color:var(--win);background:radial-gradient(80% 140% at 50% 0,rgba(70,224,138,.18),transparent);text-shadow:0 0 22px rgba(70,224,138,.55)}
 .dop .banner.lose{color:var(--lose);background:radial-gradient(80% 140% at 50% 0,rgba(255,93,115,.16),transparent);text-shadow:0 0 22px rgba(255,93,115,.45)}
 .dop .banner.push{color:var(--push);background:radial-gradient(80% 140% at 50% 0,rgba(231,198,107,.14),transparent)}
-.dop .strip{display:flex;gap:10px;margin-top:10px;border-top:1px solid rgba(231,198,107,.12);padding-top:10px}
-.dop .stat{flex:1;text-align:center}.dop .stat .k{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.dop .strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));gap:8px;margin-top:10px;border-top:1px solid rgba(231,198,107,.12);padding-top:10px}
+.dop .stat{text-align:center}.dop .stat .k{font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
 .dop .stat .v{font-size:15px;margin-top:3px}.dop .stat .v.up{color:var(--win)}.dop .stat .v.down{color:var(--lose)}
 .dop .reels{display:flex;gap:8px;justify-content:center;margin:6px 0}
-.dop .reel{width:60px;height:72px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:34px;
+.dop .reel{width:clamp(48px,14cqi,60px);height:clamp(58px,17cqi,72px);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:clamp(26px,8cqi,34px);
  background:#0a0d0c;box-shadow:inset 0 0 0 1px rgba(231,198,107,.25),inset 0 8px 18px rgba(0,0,0,.6);animation:dl .4s both}
 .dop .reel:nth-child(2){animation-delay:.12s}.dop .reel:nth-child(3){animation-delay:.24s}
-.dop .wheel{width:96px;height:96px;border-radius:50%;margin:6px auto;display:flex;align-items:center;justify-content:center;
+.dop .wheel{width:clamp(76px,24cqi,96px);height:clamp(76px,24cqi,96px);border-radius:50%;margin:6px auto;display:flex;align-items:center;justify-content:center;
  font-size:28px;font-weight:800;color:#fff;border:3px solid rgba(231,198,107,.5);
  background:conic-gradient(#1a1a1a 0 10deg,#cf2d3b 10deg 20deg,#1a1a1a 20deg 30deg,#cf2d3b 30deg 40deg,#1a1a1a 40deg 50deg,#138a36 50deg 60deg,#1a1a1a 60deg 360deg)}
-.dop .coin{width:84px;height:84px;border-radius:50%;margin:6px auto;display:flex;align-items:center;justify-content:center;
+.dop .coin{width:clamp(70px,22cqi,84px);height:clamp(70px,22cqi,84px);border-radius:50%;margin:6px auto;display:flex;align-items:center;justify-content:center;
  font-size:32px;font-weight:800;color:#3b2f0c;background:radial-gradient(circle at 35% 30%,#f6dd95,#caa544);
  box-shadow:0 6px 14px rgba(0,0,0,.45),inset 0 0 0 3px rgba(255,255,255,.25)}
 .dop .track{height:10px;border-radius:999px;background:#0a0d0c;position:relative;margin:20px 0 8px;box-shadow:inset 0 0 0 1px rgba(231,198,107,.2)}
 .dop .track .wz{position:absolute;top:0;bottom:0;background:rgba(70,224,138,.22);border-radius:999px}
 .dop .track .rl{position:absolute;top:-5px;width:3px;height:20px;background:var(--gold)}
-.dop .hands{display:flex;justify-content:center;gap:26px;font-size:46px;margin:8px 0}
+.dop .hands{display:flex;justify-content:center;gap:26px;font-size:clamp(34px,11cqi,46px);margin:8px 0}
 .dop .center{text-align:center;font-size:13px;color:var(--dim);margin-top:6px}.dop .center b{color:var(--txt)}
 </style>
 """
