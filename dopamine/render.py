@@ -58,6 +58,31 @@ _CSS = """
 .dop .track .rl{position:absolute;top:-5px;width:3px;height:20px;background:var(--gold)}
 .dop .hands{display:flex;justify-content:center;gap:26px;font-size:clamp(34px,11cqi,46px);margin:8px 0}
 .dop .center{text-align:center;font-size:13px;color:var(--dim);margin-top:6px}.dop .center b{color:var(--txt)}
+
+.dop .felt{display:grid;grid-template-columns:auto repeat(12,1fr);grid-auto-rows:clamp(20px,6.4cqi,30px);gap:3px;margin:8px 0 4px}
+.dop .num,.dop .zero{display:flex;align-items:center;justify-content:center;border-radius:4px;font-weight:700;color:#fff;position:relative;font-size:clamp(9px,2.6cqi,12px)}
+.dop .num.red{background:#b3242f}.dop .num.black{background:#1c1f25}
+.dop .zero{grid-row:1/4;grid-column:1;background:#138a36;padding:0 2px}
+.dop .win{box-shadow:0 0 0 2px #fff,0 0 14px rgba(255,255,255,.65);z-index:2}
+.dop .ball{position:absolute;top:-3px;right:-3px;width:9px;height:9px;border-radius:50%;background:#fff;box-shadow:0 0 8px #fff;z-index:4}
+.dop .chip{position:absolute;width:clamp(17px,5cqi,22px);height:clamp(17px,5cqi,22px);border-radius:50%;
+ background:radial-gradient(circle at 35% 30%,#f6dd95,#caa544);border:2px dashed #8a6d1f;color:#3b2f0c;
+ font-size:clamp(7px,2.2cqi,9px);font-weight:800;display:flex;align-items:center;justify-content:center;
+ box-shadow:0 2px 6px rgba(0,0,0,.55);z-index:3}
+.dop .outside,.dop .doz{display:grid;gap:3px;margin-top:3px}
+.dop .outside{grid-template-columns:repeat(6,1fr)}.dop .doz{grid-template-columns:repeat(3,1fr)}
+.dop .obet{display:flex;align-items:center;justify-content:center;padding:7px 2px;border-radius:4px;
+ font-size:clamp(8px,2.3cqi,11px);letter-spacing:.03em;text-transform:uppercase;position:relative;
+ background:#0d1f17;border:1px solid rgba(231,198,107,.2);color:var(--txt)}
+.dop .obet.red{background:#7a1a22}.dop .obet.black{background:#161a1f}
+.dop .obet.lit{outline:2px solid var(--gold);outline-offset:-2px}
+.dop .betspot{display:flex;align-items:center;gap:10px;margin:8px 0 2px}
+.dop .betspot .ring{width:clamp(34px,10cqi,44px);height:clamp(34px,10cqi,44px);border-radius:50%;
+ border:2px dashed rgba(231,198,107,.4);display:flex;align-items:center;justify-content:center}
+.dop .bchip{width:clamp(28px,8.5cqi,38px);height:clamp(28px,8.5cqi,38px);border-radius:50%;
+ background:radial-gradient(circle at 35% 30%,#f6dd95,#caa544);border:2px dashed #8a6d1f;color:#3b2f0c;
+ font-size:clamp(9px,2.8cqi,12px);font-weight:800;display:flex;align-items:center;justify-content:center;box-shadow:0 3px 8px rgba(0,0,0,.5)}
+.dop .betspot .lbl{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
 </style>
 """
 
@@ -147,7 +172,9 @@ def _blackjack(r):
             f'<div class="hand">{dealer}</div>' +
             _banner(_result_kind(r), big, labels.get(o["result"], "")) +
             f'<div class="lane"><span class="who">You</span><span class="tot">{o["player_total"]}{ptag}</span></div>'
-            f'<div class="hand">{player}</div>' + _strip(r))
+            f'<div class="hand">{player}</div>' +
+            f'<div class="betspot"><div class="ring"><div class="bchip">{r["wager"]:g}</div></div><span class="lbl">your bet</span></div>' +
+            _strip(r))
 
 
 _SLOT_EMOJI = {"seven": "7\ufe0f\u20e3", "claw": "\U0001f9be", "star": "\u2b50", "bell": "\U0001f514",
@@ -162,14 +189,44 @@ def _slots(r):
             _banner(_result_kind(r), big, " ".join(o["reels"])) + _strip(r))
 
 
+_RRED = {1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36}
+
+
 def _roulette(r):
-    o = r["outcome"]; col = o["color"]
-    cc = {"red": "#cf2d3b", "black": "#16181d", "green": "#138a36"}.get(col, "#16181d")
+    o = r["outcome"]; win_n = int(o["number"]); col = o["color"]; bet = o["bet"]; val = o.get("value")
+    w = f'{r["wager"]:g}'
+    cells = []
+    zc = " win" if win_n == 0 else ""
+    zball = '<span class="ball"></span>' if win_n == 0 else ""
+    zchip = f'<span class="chip">{w}</span>' if (bet == "number" and str(val) == "0") else ""
+    cells.append(f'<div class="zero{zc}">0{zball}{zchip}</div>')
+    for n in range(1, 37):
+        ccol = (n + 2) // 3 + 1
+        crow = 1 if n % 3 == 0 else (2 if n % 3 == 2 else 3)
+        nc = "red" if n in _RRED else "black"
+        ex = " win" if n == win_n else ""
+        ball = '<span class="ball"></span>' if n == win_n else ""
+        chip = f'<span class="chip">{w}</span>' if (bet == "number" and str(val) == str(n)) else ""
+        cells.append(f'<div class="num {nc}{ex}" style="grid-column:{ccol};grid-row:{crow}">{n}{ball}{chip}</div>')
+    grid = f'<div class="felt">{"".join(cells)}</div>'
+
+    def ob(label, key, cls=""):
+        lit = " lit" if bet == key else ""
+        chip = f'<span class="chip">{w}</span>' if bet == key else ""
+        return f'<div class="obet {cls}{lit}">{label}{chip}</div>'
+    outside = ('<div class="outside">' + ob("1-18", "low") + ob("Even", "even") + ob("Red", "red", "red")
+               + ob("Black", "black", "black") + ob("Odd", "odd") + ob("19-36", "high") + '</div>')
+
+    def dz(label, idx):
+        is_b = bet == "dozen" and str(val) == str(idx)
+        return f'<div class="obet{(" lit" if is_b else "")}">{label}{("<span class=" + chr(34) + "chip" + chr(34) + ">" + w + "</span>") if is_b else ""}</div>'
+    dozens = f'<div class="doz">{dz("1st 12",1)}{dz("2nd 12",2)}{dz("3rd 12",3)}</div>'
+
     big = f'Win {_net_word(r)}' if r["net"] > 0 else "Miss"
-    return (_eb("ROULETTE", r) +
-            f'<div class="wheel" style="background:{cc};border-color:rgba(231,198,107,.6)">{o["number"]}</div>'
-            f'<div class="center">bet <b>{o["bet"]}{("" if o.get("value") in (None,"None") else " "+str(o["value"]))}</b> '
-            f'\u00b7 landed <b>{o["number"]} {col}</b></div>' +
+    vtxt = "" if val in (None, "None") else " " + str(val)
+    sub = f'bet {bet}{vtxt} \u00b7 landed {win_n} {col}'
+    return (_eb("ROULETTE", r) + grid + outside + dozens +
+            f'<div class="center">{sub}</div>' +
             _banner(_result_kind(r), big, "") + _strip(r))
 
 
