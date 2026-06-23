@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "superclaw-dopamine"
+version = "1.0.0"
+description = "DB-backed, provably-fair game engine for AI agents — virtual chips, no chain, no network."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { text = "MIT" }
+authors = [{ name = "superpowerdevk" }]
+keywords = ["agents", "provably-fair", "benchmark", "sqlite", "games"]
+
+[project.urls]
+Repository = "https://github.com/superpowerdevk/dopamine"
+
+# installs a `dopamine` command on PATH
+[project.scripts]
+dopamine = "dopamine:main"
+
+[tool.setuptools]
+packages = ["dopamine"]
